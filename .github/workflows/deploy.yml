@@ -70,96 +70,6 @@ jobs:
       - name: 🔎 Type check
         run: pnpm run typecheck
 
-  vitest:
-    name: ⚡ Vitest
-    runs-on: ubuntu-latest
-    steps:
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 8
-
-      - name: ⎔ Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'pnpm'
-
-      - name: 📥 Download deps
-        run: pnpm install --ignore-scripts
-
-      - name: 🏄 Copy test env vars
-        run: cp apps/epic-app/.env.example apps/epic-app/.env
-
-      - name: 🛠 Setup Database
-        run: pnpm run generate
-
-      - name: 🖼 Build icons
-        run: pnpm run build
-
-      - name: ⚡ Run vitest
-        run: pnpm run test
-
-  playwright:
-    name: 🎭 Playwright
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    steps:
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-
-      - name: 🏄 Copy test env vars
-        run: cp ./apps/epic-app/.env.example ./apps/epic-app/.env
-
-      - uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 8
-
-      - name: ⎔ Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'pnpm'
-
-      - name: 📥 Download deps
-        run: pnpm install
-
-      - name: 🛠 Setup Database
-        run: pnpm run db:migrate:force
-
-      - name: 🏦 Cache Database
-        id: db-cache
-        uses: actions/cache@v3
-        with:
-          path: prisma/data.db
-          key:
-            db-cache-schema_${{
-            hashFiles('./apps/epic-stack/prisma/schema.prisma')
-            }}-migrations_${{
-            hashFiles('./apps/epic-stack/prisma/migrations/*/migration.sql') }}
-
-      - name: 🌱 Seed Database
-        if: steps.db-cache.outputs.cache-hit != 'true'
-        run: pnpm db:seed
-        env:
-          MINIMAL_SEED: true
-
-      - name: 🏗 Build
-        run: pnpm run build
-
-      - name: Install Playwright Browsers and run tests
-        run: pnpm test:e2e:ci
-
-      - name: 📊 Upload report
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
-
   build:
     name: 🐳 Build
     # only build/deploy main branch on pushes
@@ -229,7 +139,7 @@ jobs:
   deploy:
     name: 🚀 Deploy
     runs-on: ubuntu-latest
-    needs: [lint, typecheck, vitest, playwright, build]
+    needs: [lint, typecheck, build]
     # only build/deploy main branch on pushes
     if:
       ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') &&

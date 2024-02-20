@@ -1,4 +1,4 @@
-import { epicStackPreset } from '@epic-stack-monorepo/ui/tailwind'
+import { Preset } from '@epic-stack-monorepo/ui/tailwind'
 import { type Config } from 'tailwindcss'
 
 export default {
@@ -7,5 +7,5 @@ export default {
 		'src/**/*.{ts,tsx}',
 		'../../packages/**/*.{ts,tsx}',
 	],
-	presets: [epicStackPreset],
+	presets: [Preset],
 } satisfies Config

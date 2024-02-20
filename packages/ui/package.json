@@ -82,37 +82,9 @@
       "import": "./src/button.tsx",
       "types": "./src/button.tsx"
     },
-    "./checkbox": {
-      "import": "./src/checkbox.tsx",
-      "types": "./src/checkbox.tsx"
-    },
-    "./dropdown-menu": {
-      "import": "./src/dropdown-menu.tsx",
-      "types": "./src/dropdown-menu.tsx"
-    },
     "./icon": {
       "import": "./src/icon.tsx",
       "types": "./src/icon.tsx"
-    },
-    "./input": {
-      "import": "./src/input.tsx",
-      "types": "./src/input.tsx"
-    },
-    "./label": {
-      "import": "./src/label.tsx",
-      "types": "./src/label.tsx"
-    },
-    "./status-button": {
-      "import": "./src/status-button.tsx",
-      "types": "./src/status-button.tsx"
-    },
-    "./textarea": {
-      "import": "./src/textarea.tsx",
-      "types": "./src/textarea.tsx"
-    },
-    "./tooltip": {
-      "import": "./src/tooltip.tsx",
-      "types": "./src/tooltip.tsx"
     }
   },
   "typesVersions": {

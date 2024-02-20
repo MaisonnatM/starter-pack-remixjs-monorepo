@@ -26,12 +26,6 @@ tool of choice is turborepo (feel free to switch it for NX).
     this UI package contains the [shadcn/ui](https://ui.shadcn.com/) Component
     previously in the Epic Stack App. It also exposes a Tailwind config
     "epic-stack" preset, that you consume from the Remix app.
-  - [`client-hints`](https://github.com/PhilDL/epic-stack-monorepo/tree/main/packages/client-hints):
-    is an example package that takes the original functions and hooks handling
-    client-hints in the `utils` folder of the original app, and put that into
-    their own package.
-    [`The hooks`](https://github.com/PhilDL/epic-stack-monorepo/tree/main/packages/client-hints/src/client-hints.tsx):
-    were refactored to take "loader" as generics (typically the root loader).
   - Some config packages:
     - eslint containing some common eslint configs.
     - tsconfig presets.

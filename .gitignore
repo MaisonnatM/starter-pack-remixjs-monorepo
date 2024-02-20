@@ -11,12 +11,8 @@ node_modules
 
 /apps/**/prisma/data.db
 /apps/**/prisma/data.db-journal
-/apps/**/tests/prisma
 
 /apps/**/test-results/
-/apps/**/playwright-report/
-/apps/**/playwright/.cache/
-/apps/**/tests/fixtures/email/
 /apps/**/coverage
 
 /apps/**/other/cache.db

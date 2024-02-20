@@ -4,7 +4,7 @@
 FROM node:18-bookworm-slim as pruner
 
 # Install openssl for Prisma
-RUN apt-get update && apt-get install -y fuse3 openssl sqlite3 ca-certificates
+RUN apt-get update && apt-get install -y fuse3 openssl ca-certificates
 RUN corepack enable
 WORKDIR /app
 RUN yarn global add turbo
@@ -14,7 +14,7 @@ RUN find . -name "node_modules" -type d -prune -exec rm -rf '{}' +
 
 # base node image
 FROM node:18-bookworm-slim as base
-RUN apt-get update && apt-get install -y fuse3 openssl sqlite3 ca-certificates
+RUN apt-get update && apt-get install -y fuse3 openssl ca-certificates
 RUN corepack enable
 WORKDIR /app
 COPY .gitignore .gitignore
@@ -49,18 +49,9 @@ RUN pnpm run build --filter=@epic-stack-monorepo/epic-app...
 FROM base AS runner
 
 ENV FLY="true"
-ENV LITEFS_DIR="/litefs/data"
-ENV DATABASE_FILENAME="sqlite.db"
-ENV DATABASE_PATH="$LITEFS_DIR/$DATABASE_FILENAME"
-ENV DATABASE_URL="file:$DATABASE_PATH"
-ENV CACHE_DATABASE_FILENAME="cache.db"
-ENV CACHE_DATABASE_PATH="/$LITEFS_DIR/$CACHE_DATABASE_FILENAME"
 ENV INTERNAL_PORT="8080"
 ENV PORT="8081"
 ENV NODE_ENV="production"
-
-# add shortcut for connecting to database CLI
-RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/database-cli && chmod +x /usr/local/bin/database-cli
 
 WORKDIR /app
 
@@ -72,11 +63,6 @@ COPY --from=builder /app/apps/epic-app/public ./apps/epic-app/public
 COPY --from=builder /app/apps/epic-app/server-build ./apps/epic-app/server-build
 # COPY --from=builder /app/apps/epic-app/app/components/ui/icons ./apps/epic-app/app/components/ui/icons
 
-# prepare for litefs
-COPY --from=flyio/litefs:0.5.5 /usr/local/bin/litefs /usr/local/bin/litefs
-ADD ./apps/epic-app/other/litefs.yml /etc/litefs.yml
-RUN mkdir -p /data ${LITEFS_DIR}
-
 ADD . .
 
-CMD ["litefs", "mount"]
+CMD ["pnpm", "start"]

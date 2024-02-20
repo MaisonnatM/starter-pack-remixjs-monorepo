@@ -1,17 +1,14 @@
 import crypto from 'crypto'
 import path from 'path'
 import { fileURLToPath } from 'url'
+
+import { createRequestHandler, type RequestHandler } from '@remix-run/express'
 import {
-	createRequestHandler as _createRequestHandler,
-	type RequestHandler,
-} from '@remix-run/express'
-import {
+	type ServerBuild,
 	broadcastDevReady,
 	installGlobals,
-	type ServerBuild,
 } from '@remix-run/node'
-import { wrapExpressCreateRequestHandler } from '@sentry/remix'
-import address from 'address'
+import { ip } from 'address'
 import chalk from 'chalk'
 import closeWithGrace from 'close-with-grace'
 import compression from 'compression'
@@ -24,10 +21,6 @@ import morgan from 'morgan'
 installGlobals()
 
 const MODE = process.env.NODE_ENV
-
-const createRequestHandler = wrapExpressCreateRequestHandler(
-	_createRequestHandler,
-)
 
 const BUILD_PATH = '../build/index.js'
 const WATCH_PATH = '../build/version.txt'
@@ -103,6 +96,20 @@ app.use(
 	}),
 )
 
+function getRequestHandler(build: ServerBuild): RequestHandler {
+	function getLoadContext(_: any, res: any) {
+		return { cspNonce: res.locals.cspNonce }
+	}
+	return createRequestHandler({ build, mode: MODE, getLoadContext })
+}
+
+app.all(
+	'*',
+	MODE === 'development'
+		? (...args) => getRequestHandler(devBuild)(...args)
+		: getRequestHandler(build),
+)
+
 app.use((_, res, next) => {
 	res.locals.cspNonce = crypto.randomBytes(16).toString('hex')
 	next()
@@ -116,11 +123,9 @@ app.use(
 			// NOTE: Remove reportOnly when you're ready to enforce this CSP
 			reportOnly: true,
 			directives: {
-				'connect-src': [
-					MODE === 'development' ? 'ws:' : null,
-					process.env.SENTRY_DSN ? '*.ingest.sentry.io' : null,
-					"'self'",
-				].filter(Boolean),
+				'connect-src': [MODE === 'development' ? 'ws:' : null, "'self'"].filter(
+					Boolean,
+				),
 				'font-src': ["'self'"],
 				'frame-src': ["'self'"],
 				'img-src': ["'self'", 'data:'],
@@ -143,8 +148,7 @@ app.use(
 // When running tests or running in development, we want to effectively disable
 // rate limiting because playwright tests are very fast and we don't want to
 // have to wait for the rate limit to reset between tests.
-const maxMultiple =
-	MODE !== 'production' || process.env.PLAYWRIGHT_TEST_BASE_URL ? 10_000 : 1
+const maxMultiple = MODE !== 'production' ? 10_000 : 1
 const rateLimitDefault = {
 	windowMs: 60 * 1000,
 	max: 1000 * maxMultiple,
@@ -196,20 +200,6 @@ app.use((req, res, next) => {
 	return generalRateLimit(req, res, next)
 })
 
-function getRequestHandler(build: ServerBuild): RequestHandler {
-	function getLoadContext(_: any, res: any) {
-		return { cspNonce: res.locals.cspNonce }
-	}
-	return createRequestHandler({ build, mode: MODE, getLoadContext })
-}
-
-app.all(
-	'*',
-	MODE === 'development'
-		? (...args) => getRequestHandler(devBuild)(...args)
-		: getRequestHandler(build),
-)
-
 const desiredPort = Number(process.env.PORT || 3000)
 const portToUse = await getPort({
 	port: portNumbers(desiredPort, desiredPort + 100),
@@ -234,7 +224,7 @@ const server = app.listen(portToUse, () => {
 	console.log(`🚀  We have liftoff!`)
 	const localUrl = `http://localhost:${portUsed}`
 	let lanUrl: string | null = null
-	const localIp = address.ip()
+	const localIp = ip()
 	// Check if the address is a private ip
 	// https://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
 	// https://github.com/facebook/create-react-app/blob/d960b9e38c062584ff6cfb1a70e1512509a966e7/packages/react-dev-utils/WebpackDevServerUtils.js#LL48C9-L54C10

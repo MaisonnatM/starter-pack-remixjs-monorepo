@@ -1,8 +1,8 @@
-import type { Config } from 'tailwindcss'
+import { type Config } from 'tailwindcss'
 
-import { epicStackPreset } from './src/tailwind/epic-stack-preset.ts'
+import { Preset } from './src/tailwind/preset.ts'
 
 export default {
 	content: ['./src/**/*.{ts,tsx}'],
-	presets: [epicStackPreset],
+	presets: [Preset],
 } satisfies Config

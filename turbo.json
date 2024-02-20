@@ -58,23 +58,6 @@
       "outputs": [],
       "cache": false
     },
-    "test:e2e:dev": {
-      "dependsOn": ["^build"],
-      "outputs": [],
-      "cache": false
-    },
-    "test:e2e:ci": {
-      "dependsOn": ["^build"],
-      "outputs": []
-    },
-    "test:e2e:install": {
-      "dependsOn": ["^build"],
-      "outputs": []
-    },
-    "test:e2e:run": {
-      "dependsOn": ["^build"],
-      "outputs": []
-    },
     "typecheck": {
       "dependsOn": ["^build"],
       "outputs": []
@@ -92,25 +75,10 @@
     "PRIMARY_REGION",
     "CI",
     "PORT",
-    "MOCKS",
-    "LITEFS_DIR",
-    "DATABASE_PATH",
     "DATABASE_URL",
-    "CACHE_DATABASE_PATH",
     "SESSION_SECRET",
     "INTERNAL_COMMAND_TOKEN",
-    "RESEND_API_KEY",
-    "SENTRY_DSN",
-    "SENTRY_ORG",
-    "SENTRY_PROJECT",
-    "SENTRY_AUTH_TOKEN",
     "MINIMAL_SEED",
-    "PLAYWRIGHT_TEST_BASE_URL",
-    "VITEST_POOL_ID",
-    "TESTING",
-    "REMIX_DEV_ORIGIN",
-    "GITHUB_CLIENT_ID",
-    "GITHUB_CLIENT_SECRET",
-    "GITHUB_TOKEN"
+    "REMIX_DEV_ORIGIN"
   ]
 }

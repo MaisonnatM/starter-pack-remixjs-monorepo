@@ -12,9 +12,6 @@ auto_rollback = true
 source = "data"
 destination = "/data"
 
-[deploy]
-release_command = "node ./apps/epic-app/other/sentry-create-release"
-
 [[services]]
 internal_port = 8080
 processes = ["app"]
@@ -50,10 +47,3 @@ protocol = "http"
 timeout = "2s"
 tls_skip_verify = false
 headers = {}
-
-[[services.http_checks]]
-grace_period = "10s"
-interval = "30s"
-method = "GET"
-timeout = "5s"
-path = "/litefs/health"

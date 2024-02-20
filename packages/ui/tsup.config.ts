@@ -2,19 +2,7 @@
 import { readFile, writeFile } from 'fs/promises'
 import { defineConfig, type Options } from 'tsup'
 
-// import jsx from '@svgr/plugin-jsx'
-
-const components = [
-	'./src/button.tsx',
-	'./src/checkbox.tsx',
-	'./src/dropdown-menu.tsx',
-	'./src/icon.tsx',
-	'./src/input.tsx',
-	'./src/label.tsx',
-	'./src/status-button.tsx',
-	'./src/textarea.tsx',
-	'./src/tooltip.tsx',
-]
+const components = ['./src/button.tsx', './src/icon.tsx']
 
 export default defineConfig(opts => {
 	const common = {
