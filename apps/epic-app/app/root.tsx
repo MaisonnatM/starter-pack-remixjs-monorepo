@@ -2,10 +2,10 @@ import { href as iconsHref } from '@epic-stack-monorepo/ui/icon'
 import { cssBundleHref } from '@remix-run/css-bundle'
 import {
 	json,
-	type DataFunctionArgs,
 	type HeadersFunction,
 	type LinksFunction,
 	type MetaFunction,
+	type LoaderFunctionArgs,
 } from '@remix-run/node'
 import {
 	Links,
@@ -52,8 +52,9 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 	return [{ title: data ? 'Epic Notes' : 'Error | Epic Notes' }]
 }
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
 	const timings = makeTimings('root loader')
+
 
 	return json(
 		{

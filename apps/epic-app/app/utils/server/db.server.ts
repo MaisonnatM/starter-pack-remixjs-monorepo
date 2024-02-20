@@ -16,7 +16,8 @@ export const prisma = remember('prisma', () => {
 			{ level: 'warn', emit: 'stdout' },
 		],
 	})
-	client.$on('query', async e => {
+
+	client.$on('query', async (e) => {
 		if (e.duration < logThreshold) return
 		const color =
 			e.duration < logThreshold * 1.1
@@ -31,6 +32,8 @@ export const prisma = remember('prisma', () => {
 		const dur = chalk[color](`${e.duration}ms`)
 		console.info(`prisma:query - ${dur} - ${e.query}`)
 	})
+
 	client.$connect()
+
 	return client
 })

@@ -1,10 +1,13 @@
 {
+  "editor.tabSize": 2,
+  "editor.detectIndentation": true,
+  "editor.insertSpaces": false,
+  "editor.formatOnSave": true,
   "typescript.preferences.autoImportFileExcludePatterns": [
     "@remix-run/server-runtime",
     "@remix-run/router",
     "express",
     "@radix-ui/**",
-    "@react-email/**",
     "react-router-dom",
     "react-router",
     "stream/consumers",
@@ -13,7 +16,4 @@
     "console",
     "node:console"
   ],
-  "workbench.editorAssociations": {
-    "*.db": "sqlite-viewer.view"
-  }
 }

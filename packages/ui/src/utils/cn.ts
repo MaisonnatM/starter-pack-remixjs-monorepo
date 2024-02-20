@@ -4,10 +4,13 @@ import { extendedTheme } from '../tailwind/extended-theme.ts'
 
 function formatColors() {
 	const colors = []
+
 	for (const [key, color] of Object.entries(extendedTheme.colors)) {
 		if (typeof color === 'string') {
 			colors.push(key)
 		} else {
+			if (!color) continue
+
 			const colorGroup = Object.keys(color).map(subKey =>
 				subKey === 'DEFAULT' ? '' : subKey,
 			)
