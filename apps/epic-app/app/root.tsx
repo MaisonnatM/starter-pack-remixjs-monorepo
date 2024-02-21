@@ -1,4 +1,5 @@
 import { href as iconsHref } from '@epic-stack-monorepo/ui/icon'
+import { useToast } from '@epic-stack-monorepo/ui/index.ts'
 import { cssBundleHref } from '@remix-run/css-bundle'
 import {
 	json,
@@ -16,12 +17,16 @@ import {
 	ScrollRestoration,
 	useLoaderData,
 } from '@remix-run/react'
+
+import { useEffect } from 'react'
+import fontStyleSheetUrl from './styles/font.css'
 import tailwindStyleSheetUrl from './styles/tailwind.css'
 import { ClientHintCheck, getHints } from './utils/helpers/client-hints.tsx'
 import { combineHeaders, getDomainUrl } from './utils/helpers/misc.tsx'
 import { useNonce } from './utils/hooks/nonce-provider.ts'
 import { getEnv } from './utils/server/env.server.ts'
 import { makeTimings } from './utils/server/timing.server.ts'
+import { getToast } from './utils/server/toast.server.ts'
 
 export const links: LinksFunction = () => {
 	return [
@@ -29,6 +34,7 @@ export const links: LinksFunction = () => {
 		{ rel: 'preload', href: iconsHref, as: 'image' },
 		{ rel: 'preload', href: tailwindStyleSheetUrl, as: 'style' },
 		cssBundleHref ? { rel: 'preload', href: cssBundleHref, as: 'style' } : null,
+		{ rel: 'preload', href: fontStyleSheetUrl, as: 'style' },
 		{ rel: 'mask-icon', href: '/favicons/mask-icon.svg' },
 		{
 			rel: 'alternate icon',
@@ -42,6 +48,7 @@ export const links: LinksFunction = () => {
 			crossOrigin: 'use-credentials',
 		} as const, // necessary to make typescript happy
 		//These should match the css preloads above to avoid css as render blocking resource
+		{ rel: 'preload', href: fontStyleSheetUrl, as: 'style' },
 		{ rel: 'icon', type: 'image/svg+xml', href: '/favicons/favicon.svg' },
 		{ rel: 'stylesheet', href: tailwindStyleSheetUrl },
 		cssBundleHref ? { rel: 'stylesheet', href: cssBundleHref } : null,
@@ -55,6 +62,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export async function loader({ request }: LoaderFunctionArgs) {
 	const timings = makeTimings('root loader')
 
+	const { toast, headers: toastHeaders } = await getToast(request)
 
 	return json(
 		{
@@ -65,9 +73,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
 				userPrefs: {},
 			},
 			ENV: getEnv(),
+			toast,
 		},
 		{
-			headers: combineHeaders({ 'Server-Timing': timings.toString() }),
+			headers: combineHeaders(
+				{ 'Server-Timing': timings.toString() },
+				toastHeaders,
+			),
 		},
 	)
 }
@@ -116,6 +128,14 @@ function Document({
 export default function App() {
 	const data = useLoaderData<typeof loader>()
 	const nonce = useNonce()
+
+	const { toast } = useToast()
+
+	useEffect(() => {
+		if (data.toast) {
+			toast(data.toast)
+		}
+	}, [data.toast, toast])
 
 	return (
 		<Document nonce={nonce} env={data.ENV}>

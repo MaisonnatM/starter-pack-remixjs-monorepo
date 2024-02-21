@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.0.4",
-    "@radix-ui/react-slot": "^1.0.2",
-    "@radix-ui/react-dropdown-menu": "^2.0.5",
     "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.4",
     "@radix-ui/react-tooltip": "^1.0.6",
     "class-variance-authority": "^0.7.0",
@@ -85,6 +85,26 @@
     "./icon": {
       "import": "./src/icon.tsx",
       "types": "./src/icon.tsx"
+    },
+    "./input": {
+      "import": "./src/input.tsx",
+      "types": "./src/input.tsx"
+    },
+    "./label": {
+      "import": "./src/label.tsx",
+      "types": "./src/label.tsx"
+    },
+    "./select": {
+      "import": "./src/select.tsx",
+      "types": "./src/select.tsx"
+    },
+    "./toast": {
+      "import": "./src/toast.tsx",
+      "types": "./src/toast.tsx"
+    },
+    "./tooltip": {
+      "import": "./src/tooltip.tsx",
+      "types": "./src/tooltip.tsx"
     }
   },
   "typesVersions": {
@@ -118,6 +138,12 @@
       ],
       "status-button": [
         "src/status-button.tsx"
+      ],
+      "select": [
+        "src/select.tsx"
+      ],
+      "toast": [
+        "src/toast.tsx"
       ]
     }
   }

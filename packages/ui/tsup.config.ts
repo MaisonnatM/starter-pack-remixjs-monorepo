@@ -2,7 +2,15 @@
 import { readFile, writeFile } from 'fs/promises'
 import { defineConfig, type Options } from 'tsup'
 
-const components = ['./src/button.tsx', './src/icon.tsx']
+const components = [
+	'./src/button.tsx',
+	'./src/icon.tsx',
+	'./src/input.tsx',
+	'./src/label.tsx',
+	'./src/select.tsx',
+	'./src/toast.tsx',
+	'./src/tooltip.tsx',
+]
 
 export default defineConfig(opts => {
 	const common = {
