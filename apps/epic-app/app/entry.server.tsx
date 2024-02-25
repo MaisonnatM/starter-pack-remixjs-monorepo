@@ -6,7 +6,7 @@ import {
 import { RemixServer } from '@remix-run/react'
 import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
-import { NonceProvider } from './utils/hooks/nonce-provider.ts'
+import { NonceProvider } from './utils/providers/nonce.provider.ts'
 import { getEnv, init } from './utils/server/env.server.ts'
 import { makeTimings } from './utils/server/timing.server.ts'
 

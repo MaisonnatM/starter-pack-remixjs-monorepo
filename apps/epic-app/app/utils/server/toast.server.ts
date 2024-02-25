@@ -5,7 +5,7 @@ import { combineHeaders } from '../helpers/misc.tsx'
 export const toastKey = 'toast'
 
 const ToastSchema = z.object({
-	variant: z.enum(['default', 'destructive']),
+	variant: z.enum(['default', 'destructive']).optional(),
 	title: z.string(),
 	description: z.string(),
 })
