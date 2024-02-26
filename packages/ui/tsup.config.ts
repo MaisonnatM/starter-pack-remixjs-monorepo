@@ -10,6 +10,7 @@ const components = [
 	'./src/select.tsx',
 	'./src/toast.tsx',
 	'./src/tooltip.tsx',
+	'./src/checkbox.tsx',
 ]
 
 export default defineConfig(opts => {

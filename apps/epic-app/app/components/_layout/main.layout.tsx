@@ -1,5 +1,11 @@
 import { type PropsWithChildren } from 'react'
 
 export function MainLayout({ children }: PropsWithChildren) {
-	return <>{children}</>
+	return (
+		<>
+			<header>header</header>
+			<main>{children}</main>
+			<footer>footer</footer>
+		</>
+	)
 }

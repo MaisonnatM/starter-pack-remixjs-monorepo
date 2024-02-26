@@ -9,4 +9,5 @@ export type IconName =
 	| "chevron-up"
 	| "cross-1"
 	| "cross-2"
-	| "plus";
+	| "plus"
+	| "update";

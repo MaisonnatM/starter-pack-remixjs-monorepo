@@ -19,6 +19,7 @@ import {
 import { prisma } from '#app/utils/server/db.server.ts'
 import { verifySessionStorage } from '#app/utils/server/verification.server.ts'
 import { type VerifyFunctionArgs } from './verify.tsx'
+import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
 
 const resetPasswordUsernameSessionKey = 'resetPasswordUsername'
 
@@ -148,5 +149,5 @@ export default function ResetPasswordPage() {
 }
 
 export function ErrorBoundary() {
-	return <>Error</>
+	return <GeneralErrorBoundary />
 }

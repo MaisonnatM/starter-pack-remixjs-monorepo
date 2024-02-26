@@ -19,6 +19,7 @@ import {
 } from '@remix-run/react'
 
 import { useEffect } from 'react'
+import { GeneralErrorBoundary } from './components/_shared/general-error-boundary.tsx'
 import fontStyleSheetUrl from './styles/font.css'
 import tailwindStyleSheetUrl from './styles/tailwind.css'
 import { ClientHintCheck, getHints } from './utils/helpers/client-hints.tsx'
@@ -145,20 +146,11 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
-	// the nonce doesn't rely on the loader so we can access that
 	const nonce = useNonce()
-
-	// NOTE: you cannot use useLoaderData in an ErrorBoundary because the loader
-	// likely failed to run so we have to do the best we can.
-	// We could probably do better than this (it's possible the loader did run).
-	// This would require a change in Remix.
-
-	// Just make sure your root route never errors out and you'll always be able
-	// to give the user a better UX.
 
 	return (
 		<Document nonce={nonce}>
-			<>An error occurred. Please try again.</>
+			<GeneralErrorBoundary />
 		</Document>
 	)
 }

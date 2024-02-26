@@ -15,6 +15,7 @@ import { checkHoneypot } from '#app/utils/server/honeypot.server.ts'
 import { generateTOTP, verifyTOTP } from '#app/utils/server/totp.server.ts'
 import { handleVerification as handleOnboardingVerification } from './onboarding.tsx'
 import { handleVerification as handleResetPasswordVerification } from './reset-password.tsx'
+import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
 
 export const codeQueryParam = 'code'
 export const targetQueryParam = 'target'
@@ -261,5 +262,5 @@ export default function VerifyRoute() {
 }
 
 export function ErrorBoundary() {
-	return <>error</>
+	return <GeneralErrorBoundary />
 }

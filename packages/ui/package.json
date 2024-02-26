@@ -105,6 +105,10 @@
     "./tooltip": {
       "import": "./src/tooltip.tsx",
       "types": "./src/tooltip.tsx"
+    },
+    "./checkbox": {
+      "import": "./src/checkbox.tsx",
+      "types": "./src/checkbox.tsx"
     }
   },
   "typesVersions": {
