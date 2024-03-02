@@ -11,12 +11,12 @@ import {
 import { Form, useActionData, useSearchParams } from '@remix-run/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
+import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
 import { EmailSchema } from '#app/utils/helpers/validations.ts'
 import { prisma } from '#app/utils/server/db.server.ts'
 import { sendEmail } from '#app/utils/server/email.server.ts'
 import { checkHoneypot } from '#app/utils/server/honeypot.server.ts'
 import { prepareVerification } from './verify.tsx'
-import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
 
 const SignupSchema = z.object({
 	email: EmailSchema,

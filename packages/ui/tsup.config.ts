@@ -11,6 +11,11 @@ const components = [
 	'./src/toast.tsx',
 	'./src/tooltip.tsx',
 	'./src/checkbox.tsx',
+	'./src/switch.tsx',
+	'./src/textarea.tsx',
+	'./src/separator.tsx',
+	'./src/scroll-area.tsx',
+	'./src/badge.tsx',
 ]
 
 export default defineConfig(opts => {

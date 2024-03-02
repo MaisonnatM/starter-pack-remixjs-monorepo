@@ -10,6 +10,7 @@ import {
 } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
 
+import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
 import { useIsPending } from '#app/hooks/useIsPending.ts'
 import { PasswordAndConfirmPasswordSchema } from '#app/utils/helpers/validations.ts'
 import {
@@ -19,7 +20,6 @@ import {
 import { prisma } from '#app/utils/server/db.server.ts'
 import { verifySessionStorage } from '#app/utils/server/verification.server.ts'
 import { type VerifyFunctionArgs } from './verify.tsx'
-import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
 
 const resetPasswordUsernameSessionKey = 'resetPasswordUsername'
 

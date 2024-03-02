@@ -5,6 +5,8 @@
 // ensure the user gets the right status code and we can display a nicer error
 // message for them than the Remix and/or browser default.
 
+import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
+
 export async function loader() {
 	throw new Response('Not found', { status: 404 })
 }
@@ -16,5 +18,5 @@ export default function NotFound() {
 }
 
 export function ErrorBoundary() {
-	return <>An error occured</>
+	return <GeneralErrorBoundary />
 }
