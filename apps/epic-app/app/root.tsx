@@ -10,7 +10,6 @@ import {
 } from '@remix-run/node'
 import {
 	Links,
-	LiveReload,
 	Meta,
 	Outlet,
 	Scripts,
@@ -19,6 +18,7 @@ import {
 } from '@remix-run/react'
 
 import { useEffect } from 'react'
+import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { GeneralErrorBoundary } from './components/_shared/general-error-boundary.tsx'
 import fontStyleSheetUrl from './styles/font.css'
 import tailwindStyleSheetUrl from './styles/tailwind.css'
@@ -26,6 +26,8 @@ import { ClientHintCheck, getHints } from './utils/helpers/client-hints.tsx'
 import { combineHeaders, getDomainUrl } from './utils/helpers/misc.tsx'
 import { useNonce } from './utils/providers/nonce.provider.ts'
 import { getEnv } from './utils/server/env.server.ts'
+import { honeypot } from './utils/server/honeypot.server.ts'
+import { getTheme, type Theme } from './utils/server/theme.server.ts'
 import { makeTimings } from './utils/server/timing.server.ts'
 import { getToast } from './utils/server/toast.server.ts'
 
@@ -65,16 +67,21 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 	const { toast, headers: toastHeaders } = await getToast(request)
 
+	const honeyProps = honeypot.getInputProps()
+
 	return json(
 		{
 			requestInfo: {
 				hints: getHints(request),
 				origin: getDomainUrl(request),
 				path: new URL(request.url).pathname,
-				userPrefs: {},
+				userPrefs: {
+					theme: getTheme(request),
+				},
 			},
 			ENV: getEnv(),
 			toast,
+			honeyProps,
 		},
 		{
 			headers: combineHeaders(
@@ -96,13 +103,15 @@ function Document({
 	children,
 	nonce,
 	env = {},
+	theme = 'light',
 }: {
 	children: React.ReactNode
 	nonce: string
+	theme?: Theme
 	env?: Record<string, string>
 }) {
 	return (
-		<html lang="en">
+		<html lang="en" className={`${theme} h-full overflow-x-hidden`}>
 			<head>
 				<ClientHintCheck nonce={nonce || ''} />
 				<Meta />
@@ -110,7 +119,7 @@ function Document({
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
 				<Links />
 			</head>
-			<body>
+			<body className="bg-background text-foreground">
 				{children}
 				<script
 					nonce={nonce}
@@ -120,7 +129,6 @@ function Document({
 				/>
 				<ScrollRestoration nonce={nonce} />
 				<Scripts nonce={nonce} />
-				<LiveReload nonce={nonce} />
 			</body>
 		</html>
 	)
@@ -139,9 +147,11 @@ export default function App() {
 	}, [data.toast, toast])
 
 	return (
-		<Document nonce={nonce} env={data.ENV}>
-			<Outlet />
-		</Document>
+		<HoneypotProvider {...data.honeyProps}>
+			<Document nonce={nonce} env={data.ENV}>
+				<Outlet />
+			</Document>
+		</HoneypotProvider>
 	)
 }
 
