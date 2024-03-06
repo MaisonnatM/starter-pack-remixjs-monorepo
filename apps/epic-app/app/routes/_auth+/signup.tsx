@@ -1,6 +1,5 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import * as E from '@react-email/components'
 
 import {
 	json,
@@ -11,7 +10,11 @@ import {
 import { Form, useActionData, useSearchParams } from '@remix-run/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
+import { SignupEmail } from '#app/components/_email/signup.email.tsx'
+import { FormControlInput } from '#app/components/_shared/form-control-input.tsx'
 import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
+import { StatusButton } from '#app/components/_shared/status-button.tsx'
+import { useIsPending } from '#app/hooks/useIsPending.ts'
 import { EmailSchema } from '#app/utils/helpers/validations.ts'
 import { prisma } from '#app/utils/server/db.server.ts'
 import { sendEmail } from '#app/utils/server/email.server.ts'
@@ -62,7 +65,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
 	const response = await sendEmail({
 		to: email,
-		subject: `Welcome to system/ui!`,
+		subject: `Welcome to epic app!`,
 		react: <SignupEmail onboardingUrl={verifyUrl.toString()} otp={otp} />,
 	})
 
@@ -80,39 +83,14 @@ export async function action({ request }: ActionFunctionArgs) {
 	}
 }
 
-export function SignupEmail({
-	onboardingUrl,
-	otp,
-}: {
-	onboardingUrl: string
-	otp: string
-}) {
-	return (
-		<E.Html lang="en" dir="ltr">
-			<E.Container>
-				<h1>
-					<E.Text>Welcome to system/ui!</E.Text>
-				</h1>
-				<p>
-					<E.Text>
-						Here's your verification code: <strong>{otp}</strong>
-					</E.Text>
-				</p>
-				<p>
-					<E.Text>Or click the link to get started:</E.Text>
-				</p>
-				<E.Link href={onboardingUrl}>{onboardingUrl}</E.Link>
-			</E.Container>
-		</E.Html>
-	)
-}
-
 export const meta: MetaFunction = () => {
-	return [{ title: 'Sign Up | system/ui' }]
+	return [{ title: 'Sign Up | Epic App' }]
 }
 
 export default function SignupRoute() {
 	const actionData = useActionData<typeof action>()
+
+	const isPending = useIsPending()
 
 	const [searchParams] = useSearchParams()
 	const redirectTo = searchParams.get('redirectTo')
@@ -130,20 +108,33 @@ export default function SignupRoute() {
 	})
 
 	return (
-		<Form method="POST" {...getFormProps(form)} className="flex flex-col gap-4">
-			<HoneypotInputs />
-			<input
-				{...getInputProps(fields.email, { type: 'email' })}
-				autoComplete="email"
-				placeholder="Enter your email"
-			/>
+		<div className="flex h-[100vh] w-full flex-col items-center justify-center">
+			<Form
+				method="POST"
+				{...getFormProps(form)}
+				className="flex min-w-[325px] flex-col gap-4"
+			>
+				<h1 className="text-2xl font-bold">Sign Up</h1>
+				<HoneypotInputs />
+				<FormControlInput
+					inputProps={{
+						...getInputProps(fields.email, { type: 'email' }),
+						autoComplete: 'email',
+						placeholder: 'Enter your email',
+					}}
+				/>
 
-			<input {...getInputProps(fields.redirectTo, { type: 'hidden' })} />
-
-			<div className="flex items-center justify-between gap-6 pt-3">
-				<button type="submit">Sign Up</button>
-			</div>
-		</Form>
+				<input {...getInputProps(fields.redirectTo, { type: 'hidden' })} />
+				<StatusButton
+					className="w-full"
+					status={isPending ? 'pending' : form.status ?? 'idle'}
+					type="submit"
+					disabled={isPending}
+				>
+					Sign Up
+				</StatusButton>
+			</Form>
+		</div>
 	)
 }
 

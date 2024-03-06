@@ -4,8 +4,8 @@ import { useId } from 'react'
 import { FormErrors, type FormErrorsType } from './form-errors.tsx'
 
 type FormControlInputProps = {
-	label: string
 	inputProps: InputProps
+	label?: string
 	errors?: FormErrorsType
 }
 
@@ -20,12 +20,14 @@ export function FormControlInput({
 
 	return (
 		<div>
-			<Label htmlFor={id}>
-				{label}
-				{inputProps.required && (
-					<span className="text-destructive text-sm font-normal"> *</span>
-				)}
-			</Label>
+			{label && (
+				<Label htmlFor={id}>
+					{label}
+					{inputProps.required && (
+						<span className="text-destructive text-sm font-normal"> *</span>
+					)}
+				</Label>
+			)}
 			<Input
 				id={id}
 				aria-invalid={errorId ? true : undefined}

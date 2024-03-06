@@ -13,6 +13,9 @@ import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { safeRedirect } from 'remix-utils/safe-redirect'
 import { z } from 'zod'
 
+import { FormControlInput } from '#app/components/_shared/form-control-input.tsx'
+import { StatusButton } from '#app/components/_shared/status-button.tsx'
+import { useIsPending } from '#app/hooks/useIsPending.ts'
 import { PasswordAndConfirmPasswordSchema } from '#app/utils/helpers/validations.ts'
 import {
 	requireAnonymous,
@@ -29,7 +32,6 @@ const onboardingEmailSessionKey = 'onboardingEmail'
 
 const SignupFormSchema = z
 	.object({
-		remember: z.boolean().optional(),
 		redirectTo: z.string().optional(),
 	})
 	.and(PasswordAndConfirmPasswordSchema)
@@ -80,7 +82,7 @@ export async function action({ request }: ActionFunctionArgs) {
 		)
 	}
 
-	const { session, remember, redirectTo } = submission.value
+	const { session, redirectTo } = submission.value
 
 	const authSession = await sessionStorage.getSession(
 		request.headers.get('cookie'),
@@ -95,7 +97,7 @@ export async function action({ request }: ActionFunctionArgs) {
 	headers.append(
 		'set-cookie',
 		await sessionStorage.commitSession(authSession, {
-			expires: remember ? session.expirationDate : undefined,
+			expires: undefined,
 		}),
 	)
 	headers.append(
@@ -130,11 +132,13 @@ export async function handleVerification({ submission }: VerifyFunctionArgs) {
 }
 
 export const meta: MetaFunction = () => {
-	return [{ title: 'Setup system/ui Account' }]
+	return [{ title: 'Setup Epic App Account' }]
 }
 
 export default function SignupRoute() {
 	const actionData = useActionData<typeof action>()
+
+	const isPending = useIsPending()
 
 	const [searchParams] = useSearchParams()
 	const redirectTo = searchParams.get('redirectTo')
@@ -153,21 +157,31 @@ export default function SignupRoute() {
 	return (
 		<Form method="POST" className="flex flex-col gap-4" {...getFormProps(form)}>
 			<HoneypotInputs />
-			<input
-				{...getInputProps(fields.password, { type: 'password' })}
-				autoComplete="new-password"
-				placeholder="•••••••••••••••"
+			<FormControlInput
+				inputProps={{
+					...getInputProps(fields.password, { type: 'password' }),
+					autoComplete: 'new-password',
+					placeholder: '•••••••••••••••',
+				}}
 			/>
-			<input
-				{...getInputProps(fields.confirmPassword, { type: 'password' })}
-				autoComplete="new-password"
-				placeholder="•••••••••••••••"
+			<FormControlInput
+				inputProps={{
+					...getInputProps(fields.confirmPassword, { type: 'password' }),
+					autoComplete: 'new-password',
+					placeholder: '•••••••••••••••',
+				}}
 			/>
-			<input {...getInputProps(fields.remember, { type: 'checkbox' })} />
 
 			<input {...getInputProps(fields.redirectTo, { type: 'hidden' })} />
 
-			<button type="submit">Create an account</button>
+			<StatusButton
+				className="w-full"
+				status={isPending ? 'pending' : form.status ?? 'idle'}
+				type="submit"
+				disabled={isPending}
+			>
+				Create an account
+			</StatusButton>
 		</Form>
 	)
 }

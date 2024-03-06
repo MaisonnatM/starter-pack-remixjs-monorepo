@@ -1,6 +1,6 @@
 import { type PropsWithChildren } from 'react'
 
-export function MainLayout({ children }: PropsWithChildren) {
+export function AppLayout({ children }: PropsWithChildren) {
 	return (
 		<>
 			<header>header</header>

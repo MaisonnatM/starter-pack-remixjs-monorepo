@@ -10,6 +10,7 @@ import {
 } from '@remix-run/node'
 import {
 	Links,
+	LiveReload,
 	Meta,
 	Outlet,
 	Scripts,
@@ -20,6 +21,7 @@ import {
 import { useEffect } from 'react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { GeneralErrorBoundary } from './components/_shared/general-error-boundary.tsx'
+import { useTheme } from './hooks/useTheme.ts'
 import fontStyleSheetUrl from './styles/font.css'
 import tailwindStyleSheetUrl from './styles/tailwind.css'
 import { ClientHintCheck, getHints } from './utils/helpers/client-hints.tsx'
@@ -129,6 +131,7 @@ function Document({
 				/>
 				<ScrollRestoration nonce={nonce} />
 				<Scripts nonce={nonce} />
+				<LiveReload />
 			</body>
 		</html>
 	)
@@ -139,6 +142,7 @@ export default function App() {
 	const nonce = useNonce()
 
 	const { toast } = useToast()
+	const theme = useTheme()
 
 	useEffect(() => {
 		if (data.toast) {
@@ -148,7 +152,7 @@ export default function App() {
 
 	return (
 		<HoneypotProvider {...data.honeyProps}>
-			<Document nonce={nonce} env={data.ENV}>
+			<Document nonce={nonce} env={data.ENV} theme={theme}>
 				<Outlet />
 			</Document>
 		</HoneypotProvider>

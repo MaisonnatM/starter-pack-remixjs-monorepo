@@ -1,7 +1,7 @@
 import { parseWithZod } from '@conform-to/zod'
 import { useFetchers } from '@remix-run/react'
 
-import { ThemeFormSchema } from '#app/routes/api+/theme/update.ts'
+import { ThemeFormSchema } from '#app/routes/api+/theme+/update.ts'
 import { useHints } from '#app/utils/helpers/client-hints.tsx'
 import { useRequestInfo } from '#app/utils/helpers/request-infos.ts'
 
@@ -11,7 +11,8 @@ import { useRequestInfo } from '#app/utils/helpers/request-infos.ts'
  */
 export function useOptimisticThemeMode() {
 	const fetchers = useFetchers()
-	const themeFetcher = fetchers.find(f => f.formAction === '/')
+
+	const themeFetcher = fetchers.find(f => f.formAction === '/api/theme/update')
 
 	if (themeFetcher && themeFetcher.formData) {
 		const submission = parseWithZod(themeFetcher.formData, {

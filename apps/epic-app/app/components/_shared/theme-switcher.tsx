@@ -3,7 +3,7 @@ import { Icon } from '@epic-stack-monorepo/ui/icon.tsx'
 import { useFetcher, useRouteLoaderData } from '@remix-run/react'
 import { useOptimisticThemeMode } from '#app/hooks/useTheme.ts'
 import { type loader } from '#app/root.tsx'
-import { type action } from '#app/routes/api+/theme/update.ts'
+import { type action } from '#app/routes/api+/theme+/update.ts'
 
 export function ThemeSwitcher() {
 	const data = useRouteLoaderData<typeof loader>('root')
@@ -40,7 +40,11 @@ export function ThemeSwitcher() {
 	}
 
 	return (
-		<fetcher.Form method="POST" {...getFormProps(form)}>
+		<fetcher.Form
+			method="POST"
+			action="/api/theme/update"
+			{...getFormProps(form)}
+		>
 			<input type="hidden" name="theme" value={nextMode} />
 			<div className="flex gap-2">
 				<button

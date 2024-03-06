@@ -10,7 +10,9 @@ import {
 } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
 
+import { FormControlInput } from '#app/components/_shared/form-control-input.tsx'
 import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
+import { StatusButton } from '#app/components/_shared/status-button.tsx'
 import { useIsPending } from '#app/hooks/useIsPending.ts'
 import { PasswordAndConfirmPasswordSchema } from '#app/utils/helpers/validations.ts'
 import {
@@ -112,7 +114,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export const meta: MetaFunction = () => {
-	return [{ title: 'Reset Password | system/ui' }]
+	return [{ title: 'Reset Password | Epic App' }]
 }
 
 export default function ResetPasswordPage() {
@@ -131,19 +133,28 @@ export default function ResetPasswordPage() {
 
 	return (
 		<Form method="POST" {...getFormProps(form)}>
-			<input
-				{...getInputProps(fields.password, { type: 'password' })}
-				autoComplete="new-password"
-				autoFocus
+			<FormControlInput
+				inputProps={{
+					...getInputProps(fields.password, { type: 'password' }),
+					autoComplete: 'new-password',
+					autoFocus: true,
+				}}
 			/>
-			<input
-				{...getInputProps(fields.confirmPassword, { type: 'password' })}
-				autoComplete="new-password"
+			<FormControlInput
+				inputProps={{
+					...getInputProps(fields.confirmPassword, { type: 'password' }),
+					autoComplete: 'new-password',
+				}}
 			/>
 
-			<button type="submit" disabled={isPending}>
+			<StatusButton
+				className="w-full"
+				status={isPending ? 'pending' : form.status ?? 'idle'}
+				type="submit"
+				disabled={isPending}
+			>
 				Reset password
-			</button>
+			</StatusButton>
 		</Form>
 	)
 }

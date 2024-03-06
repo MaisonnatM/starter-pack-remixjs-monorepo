@@ -1,48 +1,65 @@
-import { Button, type ButtonProps } from '@epic-stack-monorepo/ui/button'
+import { Button, type ButtonProps } from '@epic-stack-monorepo/ui/button.tsx'
 import { Icon } from '@epic-stack-monorepo/ui/icon.tsx'
-import { useNavigation } from '@remix-run/react'
-import { useMemo } from 'react'
+import { cn } from '@epic-stack-monorepo/ui/index.ts'
+import {
+	TooltipProvider,
+	Tooltip,
+	TooltipTrigger,
+	TooltipContent,
+} from '@epic-stack-monorepo/ui/tooltip'
+import * as React from 'react'
+import { useSpinDelay } from 'spin-delay'
 
-type StatusButtonProps = {
-	action?: string
-	loading?: boolean
-} & Omit<ButtonProps, 'type'>
-
-export function StatusButton({
-	children,
-	action,
-	loading,
-	...props
-}: StatusButtonProps) {
-	const navigation = useNavigation()
-
-	const isSubmittingForm = useMemo(() => {
-		const submittingForm = navigation.formData?.get('_action')
-
-		if (typeof submittingForm !== 'string' || !submittingForm) {
-			return false
-		}
-
-		if (submittingForm === action) {
-			return navigation.state === 'submitting' || navigation.state === 'loading'
-		}
-
-		if (!action) {
-			return navigation.state === 'submitting' || navigation.state === 'loading'
-		}
-
-		return false
-	}, [action, navigation.formData, navigation.state])
+export const StatusButton = React.forwardRef<
+	HTMLButtonElement,
+	ButtonProps & {
+		status: 'pending' | 'success' | 'error' | 'idle'
+		message?: string | null
+		spinDelay?: Parameters<typeof useSpinDelay>[1]
+	}
+>(({ message, status, className, children, spinDelay, ...props }, ref) => {
+	const delayedPending = useSpinDelay(status === 'pending', {
+		delay: 400,
+		minDuration: 300,
+		...spinDelay,
+	})
+	const companion = {
+		pending: delayedPending ? (
+			<div className="inline-flex h-6 w-6 items-center justify-center">
+				<Icon name="update" className="animate-spin" />
+			</div>
+		) : null,
+		success: (
+			<div className="inline-flex h-6 w-6 items-center justify-center">
+				<Icon name="check" />
+			</div>
+		),
+		error: (
+			<div className="bg-destructive inline-flex h-6 w-6 items-center justify-center rounded-full">
+				<Icon name="cross-1" className="text-destructive-foreground" />
+			</div>
+		),
+		idle: null,
+	}[status]
 
 	return (
 		<Button
+			ref={ref}
+			className={cn('flex justify-center gap-4', className)}
 			{...props}
-			type="submit"
-			disabled={loading || props.disabled || isSubmittingForm}
 		>
-			{children}
-			{isSubmittingForm ||
-				(loading && <Icon name="update" className="animate-spin" />)}
+			<div>{children}</div>
+			{message ? (
+				<TooltipProvider>
+					<Tooltip>
+						<TooltipTrigger>{companion}</TooltipTrigger>
+						<TooltipContent>{message}</TooltipContent>
+					</Tooltip>
+				</TooltipProvider>
+			) : (
+				companion
+			)}
 		</Button>
 	)
-}
+})
+StatusButton.displayName = 'Button'

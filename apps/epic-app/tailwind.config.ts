@@ -4,7 +4,7 @@ import { type Config } from 'tailwindcss'
 export default {
 	content: [
 		'./app/**/*.{ts,tsx,jsx,js}',
-		'src/**/*.{ts,tsx}',
+		'./app/components/**/*.{ts,tsx,jsx,js}',
 		'../../packages/**/*.{ts,tsx}',
 	],
 	presets: [Preset],

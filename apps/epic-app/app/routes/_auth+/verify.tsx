@@ -9,7 +9,10 @@ import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useSearchParams } from '@remix-run/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
+import { FormControlInput } from '#app/components/_shared/form-control-input.tsx'
 import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
+import { StatusButton } from '#app/components/_shared/status-button.tsx'
+import { useIsPending } from '#app/hooks/useIsPending.ts'
 import { getDomainUrl } from '#app/utils/helpers/misc.tsx'
 import { prisma } from '#app/utils/server/db.server.ts'
 import { checkHoneypot } from '#app/utils/server/honeypot.server.ts'
@@ -191,6 +194,7 @@ export default function VerifyRoute() {
 	const [searchParams] = useSearchParams()
 
 	const actionData = useActionData<typeof action>()
+	const isPending = useIsPending()
 	const parseWithZoddType = VerificationTypeSchema.safeParse(
 		searchParams.get(typeQueryParam),
 	)
@@ -238,9 +242,11 @@ export default function VerifyRoute() {
 					className="flex flex-col gap-4"
 				>
 					<HoneypotInputs />
-					<input
-						{...getInputProps(fields[codeQueryParam], { type: 'text' })}
-						autoComplete="one-time-code"
+					<FormControlInput
+						inputProps={{
+							...getInputProps(fields[codeQueryParam], { type: 'text' }),
+							autoComplete: 'one-time-code',
+						}}
 					/>
 					<input
 						{...getInputProps(fields[typeQueryParam], { type: 'hidden' })}
@@ -253,8 +259,14 @@ export default function VerifyRoute() {
 							type: 'hidden',
 						})}
 					/>
-
-					<button type="submit">Submit</button>
+					<StatusButton
+						className="w-full"
+						status={isPending ? 'pending' : form.status ?? 'idle'}
+						type="submit"
+						disabled={isPending}
+					>
+						Sign Up
+					</StatusButton>
 				</Form>
 			</div>
 		</div>
