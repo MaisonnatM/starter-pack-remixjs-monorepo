@@ -14,6 +14,7 @@ import { FormControlInput } from '#app/components/_shared/form-control-input.tsx
 import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
 import { StatusButton } from '#app/components/_shared/status-button.tsx'
 import { useIsPending } from '#app/hooks/useIsPending.ts'
+import { ROUTES } from '#app/utils/helpers/routes.tsx'
 import { PasswordAndConfirmPasswordSchema } from '#app/utils/helpers/validations.ts'
 import {
 	requireAnonymous,
@@ -55,7 +56,7 @@ export async function handleVerification({ submission }: VerifyFunctionArgs) {
 
 	verifySession.set(resetPasswordUsernameSessionKey, user.email)
 
-	return redirect('/reset-password', {
+	return redirect(ROUTES.resetPassword, {
 		headers: {
 			'set-cookie': await verifySessionStorage.commitSession(verifySession),
 		},
@@ -76,7 +77,7 @@ async function requireResetPasswordUsername(request: Request) {
 	)
 
 	if (typeof resetPasswordUsername !== 'string' || !resetPasswordUsername) {
-		throw redirect('/login')
+		throw redirect(ROUTES.login)
 	}
 
 	return resetPasswordUsername
@@ -106,7 +107,7 @@ export async function action({ request }: ActionFunctionArgs) {
 	await resetUserPassword({ email: resetPasswordUsername, password })
 
 	const verifySession = await verifySessionStorage.getSession()
-	return redirect('/login', {
+	return redirect(ROUTES.login, {
 		headers: {
 			'set-cookie': await verifySessionStorage.destroySession(verifySession),
 		},

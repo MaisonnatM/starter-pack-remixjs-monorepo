@@ -16,6 +16,7 @@ import { z } from 'zod'
 import { FormControlInput } from '#app/components/_shared/form-control-input.tsx'
 import { StatusButton } from '#app/components/_shared/status-button.tsx'
 import { useIsPending } from '#app/hooks/useIsPending.ts'
+import { ROUTES } from '#app/utils/helpers/routes.tsx'
 import { PasswordAndConfirmPasswordSchema } from '#app/utils/helpers/validations.ts'
 import {
 	requireAnonymous,
@@ -124,7 +125,7 @@ export async function handleVerification({ submission }: VerifyFunctionArgs) {
 
 	verifySession.set(onboardingEmailSessionKey, submission.value.target)
 
-	return redirect('/onboarding', {
+	return redirect(ROUTES.onboarding, {
 		headers: {
 			'set-cookie': await verifySessionStorage.commitSession(verifySession),
 		},

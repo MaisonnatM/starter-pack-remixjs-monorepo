@@ -17,6 +17,7 @@ import rateLimit from 'express-rate-limit'
 import getPort, { portNumbers } from 'get-port'
 import helmet from 'helmet'
 import morgan from 'morgan'
+import { ROUTES } from '#app/utils/helpers/routes.tsx'
 
 installGlobals()
 
@@ -174,15 +175,11 @@ const strongRateLimit = rateLimit({
 const generalRateLimit = rateLimit(rateLimitDefault)
 app.use((req, res, next) => {
 	const strongPaths = [
-		'/login',
-		'/signup',
-		'/verify',
-		'/admin',
-		'/onboarding',
-		'/reset-password',
-		'/settings/profile',
-		'/resources/login',
-		'/resources/verify',
+		ROUTES.login,
+		ROUTES.signUp,
+		ROUTES.verify,
+		ROUTES.onboarding,
+		ROUTES.forgotPassword,
 	]
 	if (req.method !== 'GET' && req.method !== 'HEAD') {
 		if (strongPaths.some(p => req.path.includes(p))) {
@@ -193,7 +190,7 @@ app.use((req, res, next) => {
 
 	// the verify route is a special case because it's a GET route that
 	// can have a token in the query string
-	if (req.path.includes('/verify')) {
+	if (req.path.includes(ROUTES.verify)) {
 		return strongestRateLimit(req, res, next)
 	}
 
@@ -211,8 +208,8 @@ const server = app.listen(portToUse, () => {
 		desiredPort === portToUse
 			? desiredPort
 			: addy && typeof addy === 'object'
-			? addy.port
-			: 0
+				? addy.port
+				: 0
 
 	if (portUsed !== desiredPort) {
 		console.warn(

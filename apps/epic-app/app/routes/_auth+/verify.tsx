@@ -14,6 +14,7 @@ import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boun
 import { StatusButton } from '#app/components/_shared/status-button.tsx'
 import { useIsPending } from '#app/hooks/useIsPending.ts'
 import { getDomainUrl } from '#app/utils/helpers/misc.tsx'
+import { ROUTES } from '#app/utils/helpers/routes.tsx'
 import { prisma } from '#app/utils/server/db.server.ts'
 import { checkHoneypot } from '#app/utils/server/honeypot.server.ts'
 import { generateTOTP, verifyTOTP } from '#app/utils/server/totp.server.ts'
@@ -52,7 +53,7 @@ export function getRedirectToUrl({
 	target: string
 	redirectTo?: string
 }) {
-	const redirectToUrl = new URL(`${getDomainUrl(request)}/verify`)
+	const redirectToUrl = new URL(`${getDomainUrl(request)}${ROUTES.verify}`)
 	redirectToUrl.searchParams.set(typeQueryParam, type)
 	redirectToUrl.searchParams.set(targetQueryParam, target)
 	if (redirectTo) {

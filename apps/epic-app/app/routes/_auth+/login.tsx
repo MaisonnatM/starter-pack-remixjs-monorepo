@@ -23,6 +23,7 @@ import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boun
 import { StatusButton } from '#app/components/_shared/status-button.tsx'
 import { useIsPending } from '#app/hooks/useIsPending.ts'
 import { combineResponseInits } from '#app/utils/helpers/misc.tsx'
+import { ROUTES } from '#app/utils/helpers/routes.tsx'
 import { EmailSchema, PasswordSchema } from '#app/utils/helpers/validations.ts'
 import {
 	login,
@@ -147,7 +148,7 @@ export default function LoginPage() {
 
 							<div>
 								<Link
-									to="/forgot-password"
+									to={ROUTES.forgotPassword}
 									className="text-body-xs font-semibold"
 								>
 									Forgot password?

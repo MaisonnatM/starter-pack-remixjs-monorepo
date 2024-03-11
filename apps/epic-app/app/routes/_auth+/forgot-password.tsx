@@ -14,6 +14,7 @@ import { FormControlInput } from '#app/components/_shared/form-control-input.tsx
 import { FormErrors } from '#app/components/_shared/form-errors.tsx'
 import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
 import { StatusButton } from '#app/components/_shared/status-button.tsx'
+import { ROUTES } from '#app/utils/helpers/routes.tsx'
 import { EmailSchema } from '#app/utils/helpers/validations.ts'
 import { prisma } from '#app/utils/server/db.server.ts'
 import { sendEmail } from '#app/utils/server/email.server.ts'
@@ -170,7 +171,7 @@ export default function ForgotPasswordRoute() {
 						</div>
 					</forgotPassword.Form>
 					<Link
-						to="/login"
+						to={ROUTES.login}
 						className="text-body-sm mt-11 text-center font-bold"
 					>
 						Back to Login

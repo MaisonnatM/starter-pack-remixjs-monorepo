@@ -1,5 +1,6 @@
 import { Button } from '@epic-stack-monorepo/ui/button.tsx'
 import { Link, isRouteErrorResponse, useRouteError } from '@remix-run/react'
+import { ROUTES } from '#app/utils/helpers/routes.tsx'
 
 export function GeneralErrorBoundary() {
 	const error = useRouteError()
@@ -10,7 +11,7 @@ export function GeneralErrorBoundary() {
 				<h1>404 error</h1>
 				<p>Page not found</p>
 				<Button variant="link" asChild>
-					<Link to="/">Back home</Link>
+					<Link to={ROUTES.home}>Back home</Link>
 				</Button>
 			</div>
 		)
@@ -25,7 +26,7 @@ export function GeneralErrorBoundary() {
 			<h1>{error.status} error</h1>
 			<p>code: {error.statusText}</p>
 			<Button variant="link" asChild>
-				<Link to="/">Back home</Link>
+				<Link to={ROUTES.home}>Back home</Link>
 			</Button>
 		</div>
 	)

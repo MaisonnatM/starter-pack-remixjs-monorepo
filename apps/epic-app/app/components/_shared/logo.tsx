@@ -1,8 +1,9 @@
 import { Link } from '@remix-run/react'
+import { ROUTES } from '#app/utils/helpers/routes.tsx'
 
 export function Logo() {
 	return (
-		<Link to="/">
+		<Link to={ROUTES.home}>
 			<img
 				src="https://images.placeholders.dev/?width=35&height=35"
 				alt="Epic Logo"
