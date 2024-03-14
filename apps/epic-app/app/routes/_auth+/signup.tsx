@@ -11,6 +11,7 @@ import { Form, useActionData, useSearchParams } from '@remix-run/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
 import { SignupEmail } from '#app/components/_email/signup.email.tsx'
+import { AuthLayout } from '#app/components/_layout/auth.layout'
 import { FormControlInput } from '#app/components/_shared/form-control-input.tsx'
 import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
 import { StatusButton } from '#app/components/_shared/status-button.tsx'
@@ -108,13 +109,15 @@ export default function SignupRoute() {
 	})
 
 	return (
-		<div className="flex h-[100vh] w-full flex-col items-center justify-center">
+		<AuthLayout
+			title="Create an account"
+			description="Enter your email below to create your account"
+		>
 			<Form
 				method="POST"
 				{...getFormProps(form)}
 				className="flex min-w-[325px] flex-col gap-4"
 			>
-				<h1 className="text-2xl font-bold">Sign Up</h1>
 				<HoneypotInputs />
 				<FormControlInput
 					inputProps={{
@@ -131,10 +134,10 @@ export default function SignupRoute() {
 					type="submit"
 					disabled={isPending}
 				>
-					Sign Up
+					Sign In with Email
 				</StatusButton>
 			</Form>
-		</div>
+		</AuthLayout>
 	)
 }
 

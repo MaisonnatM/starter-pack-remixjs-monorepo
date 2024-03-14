@@ -8,7 +8,6 @@ import {
 } from '@remix-run/node'
 import {
 	Form,
-	Link,
 	redirect,
 	useActionData,
 	useSearchParams,
@@ -17,6 +16,7 @@ import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { safeRedirect } from 'remix-utils/safe-redirect'
 import { z } from 'zod'
 
+import { AuthLayout } from '#app/components/_layout/auth.layout'
 import { FormControlInput } from '#app/components/_shared/form-control-input.tsx'
 import { FormErrors } from '#app/components/_shared/form-errors.tsx'
 import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
@@ -112,82 +112,49 @@ export default function LoginPage() {
 	})
 
 	return (
-		<div className="flex min-h-full flex-col justify-center pb-32 pt-20">
-			<div className="mx-auto w-full max-w-md">
-				<div className="flex flex-col gap-3 text-center">
-					<h1 className="text-h1">Welcome back!</h1>
-					<p className="text-body-md text-muted-foreground">
-						Please enter your details.
-					</p>
+		<AuthLayout
+			title="Welcome back!"
+			description="Enter your email and password to log in to your account."
+		>
+			<Form method="POST" {...getFormProps(form)} className="grid gap-2">
+				<input {...getInputProps(fields.redirectTo, { type: 'hidden' })} />
+
+				<HoneypotInputs />
+				<FormControlInput
+					inputProps={{
+						...getInputProps(fields.email, { type: 'text' }),
+						autoFocus: true,
+						autoComplete: 'email',
+						placeholder: 'name@example.com',
+					}}
+					errors={fields.email.errors}
+				/>
+
+				<FormControlInput
+					inputProps={{
+						...getInputProps(fields.password, {
+							type: 'password',
+						}),
+						autoComplete: 'current-password',
+						placeholder: '••••••••••••••••',
+					}}
+					errors={fields.password.errors}
+				/>
+
+				<FormErrors errors={form.errors} id={form.errorId} />
+
+				<div className="flex items-center justify-between gap-6 pt-3">
+					<StatusButton
+						className="w-full"
+						status={isPending ? 'pending' : form.status ?? 'idle'}
+						type="submit"
+						disabled={isPending}
+					>
+						Log in
+					</StatusButton>
 				</div>
-
-				<div>
-					<div className="mx-auto w-full max-w-md px-8">
-						<Form method="POST" {...getFormProps(form)}>
-							<HoneypotInputs />
-							<FormControlInput
-								label="Email"
-								inputProps={{
-									...getInputProps(fields.email, { type: 'text' }),
-									autoFocus: true,
-									autoComplete: 'email',
-								}}
-								errors={fields.email.errors}
-							/>
-
-							<FormControlInput
-								label="Password"
-								inputProps={{
-									...getInputProps(fields.password, {
-										type: 'password',
-									}),
-									autoComplete: 'current-password',
-								}}
-								errors={fields.password.errors}
-							/>
-
-							<div>
-								<Link
-									to={ROUTES.forgotPassword}
-									className="text-body-xs font-semibold"
-								>
-									Forgot password?
-								</Link>
-							</div>
-
-							<input
-								{...getInputProps(fields.redirectTo, { type: 'hidden' })}
-							/>
-							<FormErrors errors={form.errors} id={form.errorId} />
-
-							<div className="flex items-center justify-between gap-6 pt-3">
-								<StatusButton
-									className="w-full"
-									status={isPending ? 'pending' : form.status ?? 'idle'}
-									type="submit"
-									disabled={isPending}
-								>
-									Log in
-								</StatusButton>
-							</div>
-						</Form>
-
-						<div className="flex items-center justify-center gap-2 pt-6">
-							<span className="text-muted-foreground">New here?</span>
-							<Link
-								to={
-									redirectTo
-										? `/signup?${encodeURIComponent(redirectTo)}`
-										: '/signup'
-								}
-							>
-								Create an account
-							</Link>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+			</Form>
+		</AuthLayout>
 	)
 }
 

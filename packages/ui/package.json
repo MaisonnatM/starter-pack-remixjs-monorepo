@@ -137,6 +137,34 @@
     "./badge": {
       "import": "./src/badge.tsx",
       "types": "./src/badge.tsx"
+    },
+    "./avatar": {
+      "import": "./src/avatar.tsx",
+      "types": "./src/avatar.tsx"
+    },
+    "./card": {
+      "import": "./src/card.tsx",
+      "types": "./src/card.tsx"
+    },
+    "./combobox": {
+      "import": "./src/combobox.tsx",
+      "types": "./src/combobox.tsx"
+    },
+    "./command": {
+      "import": "./src/command.tsx",
+      "types": "./src/command.tsx"
+    },
+    "./dialog": {
+      "import": "./src/dialog.tsx",
+      "types": "./src/dialog.tsx"
+    },
+    "./popover": {
+      "import": "./src/popover.tsx",
+      "types": "./src/popover.tsx"
+    },
+    "./navigation-menu": {
+      "import": "./src/navigation-menu.tsx",
+      "types": "./src/navigation-menu.tsx"
     }
   },
   "typesVersions": {

@@ -74,7 +74,7 @@ export const shadcnPlugin = plugin(
 			extend: {
 				...extendedTheme,
 				fontFamily: {
-					sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
+					sans: [...defaultTheme.fontFamily.sans],
 				},
 			},
 		},
