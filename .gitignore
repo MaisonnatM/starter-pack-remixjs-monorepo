@@ -5,7 +5,7 @@ node_modules
 /packages/**/dist
 
 /apps/**/build
-/apps/**/public/build
+/apps/**/.cache
 /apps/**/server-build
 .env
 

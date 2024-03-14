@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs'
 
 import { safeRedirect } from 'remix-utils/safe-redirect'
 import { combineHeaders } from '../helpers/misc.tsx'
-import { ROUTES } from '../helpers/routes.tsx'
 import { prisma } from './db.server.ts'
 
 import { sessionStorage } from './session.server.ts'
@@ -52,7 +51,7 @@ export async function requireUserId(
 				? null
 				: redirectTo ?? `${requestUrl.pathname}${requestUrl.search}`
 		const loginParams = redirectTo ? new URLSearchParams({ redirectTo }) : null
-		const loginRedirect = [ROUTES.login, loginParams?.toString()]
+		const loginRedirect = ['/login', loginParams?.toString()]
 			.filter(Boolean)
 			.join('?')
 		throw redirect(loginRedirect)

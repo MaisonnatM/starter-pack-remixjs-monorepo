@@ -16,7 +16,7 @@
     "paths": {
       "#*": ["./*"],
       "@/icon-name": [
-        "./app/components/ui/icons/name.d.ts",
+        "../../packages/ui/src/icons/name.d.ts",
         "./types/icon-name.d.ts"
       ],
       "@epic-stack-monorepo/ui/*": [

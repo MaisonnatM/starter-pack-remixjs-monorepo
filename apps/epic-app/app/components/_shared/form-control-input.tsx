@@ -1,4 +1,4 @@
-import { Input, type InputProps } from '@epic-stack-monorepo/ui/input'
+import { Input, type InputProps } from '@epic-stack-monorepo/ui/input.tsx'
 import { Label } from '@epic-stack-monorepo/ui/label'
 import { useId } from 'react'
 import { FormErrors, type FormErrorsType } from './form-errors.tsx'

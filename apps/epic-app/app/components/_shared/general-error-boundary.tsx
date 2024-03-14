@@ -1,4 +1,4 @@
-import { Button } from '@epic-stack-monorepo/ui/button.tsx'
+import { Button } from '@epic-stack-monorepo/ui/button'
 import { Link, isRouteErrorResponse, useRouteError } from '@remix-run/react'
 import { ROUTES } from '#app/utils/helpers/routes.tsx'
 

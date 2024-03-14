@@ -1,5 +1,5 @@
-import { Label } from '@epic-stack-monorepo/ui/label.tsx'
-import { Textarea } from '@epic-stack-monorepo/ui/textarea.tsx'
+import { Label } from '@epic-stack-monorepo/ui/label'
+import { Textarea } from '@epic-stack-monorepo/ui/textarea'
 import { useId } from 'react'
 import { FormErrors, type FormErrorsType } from './form-errors.tsx'
 

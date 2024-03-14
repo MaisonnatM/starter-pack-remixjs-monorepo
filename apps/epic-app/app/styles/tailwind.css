@@ -1,11 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@layer base {
-	:root {
-		--font-sans: Nunito Sans, Nunito Sans Fallback;
-	}
-}
 
 @layer base {
 	* {

@@ -140,10 +140,9 @@ jobs:
     name: 🚀 Deploy
     runs-on: ubuntu-latest
     needs: [lint, typecheck, build]
-    # only build/deploy main branch on pushes
+    # only build/deploy branches on pushes
     if:
-      ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') &&
-      github.event_name == 'push' }}
+      ${{ github.event_name == 'push' }}
 
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -153,7 +152,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 👀 Read app name
-        uses: SebRollen/toml-action@v1.0.2
+        uses: SebRollen/toml-action@v1.2.0
         id: app_name
         with:
           file: 'apps/epic-app/fly.toml'
@@ -161,7 +160,7 @@ jobs:
 
       - name: 🚀 Deploy Staging
         if: ${{ github.ref == 'refs/heads/dev' }}
-        uses: superfly/flyctl-actions@v1.4
+        uses: superfly/flyctl-actions@v1.5
         with:
           args:
             'deploy --app ${{ steps.app_name.outputs.value }}-staging --config

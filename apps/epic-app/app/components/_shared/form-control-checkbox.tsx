@@ -1,6 +1,6 @@
 import { useInputControl } from '@conform-to/react'
 import { Checkbox, type CheckboxProps } from '@epic-stack-monorepo/ui/checkbox'
-import { Label } from '@epic-stack-monorepo/ui/label.tsx'
+import { Label } from '@epic-stack-monorepo/ui/label'
 import { useId, useRef } from 'react'
 import { FormErrors, type FormErrorsType } from './form-errors.tsx'
 

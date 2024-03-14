@@ -1,5 +1,5 @@
-import { Button, type ButtonProps } from '@epic-stack-monorepo/ui/button.tsx'
-import { Icon } from '@epic-stack-monorepo/ui/icon.tsx'
+import { Button, type ButtonProps } from '@epic-stack-monorepo/ui/button'
+import { Icon } from '@epic-stack-monorepo/ui/icon'
 import { cn } from '@epic-stack-monorepo/ui/index.ts'
 import {
 	TooltipProvider,

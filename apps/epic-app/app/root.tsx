@@ -1,6 +1,5 @@
 import { href as iconsHref } from '@epic-stack-monorepo/ui/icon'
 import { useToast } from '@epic-stack-monorepo/ui/index.ts'
-import { cssBundleHref } from '@remix-run/css-bundle'
 import {
 	json,
 	type HeadersFunction,
@@ -22,7 +21,6 @@ import { useEffect } from 'react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { GeneralErrorBoundary } from './components/_shared/general-error-boundary.tsx'
 import { useTheme } from './hooks/useTheme.ts'
-import fontStyleSheetUrl from './styles/font.css'
 import tailwindStyleSheetUrl from './styles/tailwind.css'
 import { ClientHintCheck, getHints } from './utils/helpers/client-hints.tsx'
 import { combineHeaders, getDomainUrl } from './utils/helpers/misc.tsx'
@@ -38,8 +36,6 @@ export const links: LinksFunction = () => {
 		// Preload svg sprite as a resource to avoid render blocking
 		{ rel: 'preload', href: iconsHref, as: 'image' },
 		{ rel: 'preload', href: tailwindStyleSheetUrl, as: 'style' },
-		cssBundleHref ? { rel: 'preload', href: cssBundleHref, as: 'style' } : null,
-		{ rel: 'preload', href: fontStyleSheetUrl, as: 'style' },
 		{ rel: 'mask-icon', href: '/favicons/mask-icon.svg' },
 		{
 			rel: 'alternate icon',
@@ -53,10 +49,8 @@ export const links: LinksFunction = () => {
 			crossOrigin: 'use-credentials',
 		} as const, // necessary to make typescript happy
 		//These should match the css preloads above to avoid css as render blocking resource
-		{ rel: 'preload', href: fontStyleSheetUrl, as: 'style' },
 		{ rel: 'icon', type: 'image/svg+xml', href: '/favicons/favicon.svg' },
 		{ rel: 'stylesheet', href: tailwindStyleSheetUrl },
-		cssBundleHref ? { rel: 'stylesheet', href: cssBundleHref } : null,
 	].filter(Boolean)
 }
 

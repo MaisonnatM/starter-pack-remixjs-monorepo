@@ -1,6 +1,6 @@
 import { useInputControl } from '@conform-to/react'
-import { Label } from '@epic-stack-monorepo/ui/label.tsx'
-import { Switch, type SwitchProps } from '@epic-stack-monorepo/ui/switch.tsx'
+import { Label } from '@epic-stack-monorepo/ui/label'
+import { Switch, type SwitchProps } from '@epic-stack-monorepo/ui/switch'
 import { useId } from 'react'
 import { FormErrors, type FormErrorsType } from './form-errors.tsx'
 

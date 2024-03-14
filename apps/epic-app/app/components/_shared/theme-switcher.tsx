@@ -1,5 +1,5 @@
 import { getFormProps, useForm } from '@conform-to/react'
-import { Icon } from '@epic-stack-monorepo/ui/icon.tsx'
+import { Icon } from '@epic-stack-monorepo/ui/icon'
 import { useFetcher, useRouteLoaderData } from '@remix-run/react'
 import { useOptimisticThemeMode } from '#app/hooks/useTheme.ts'
 import { type loader } from '#app/root.tsx'
