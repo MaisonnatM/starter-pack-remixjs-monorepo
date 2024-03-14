@@ -16,6 +16,13 @@ const components = [
 	'./src/separator.tsx',
 	'./src/scroll-area.tsx',
 	'./src/badge.tsx',
+	'./src/avatar.tsx',
+	'./src/card.tsx',
+	'./src/combobox.tsx',
+	'./src/command.tsx',
+	'./src/dialog.tsx',
+	'./src/popover.tsx',
+	'./src/navigation-menu.tsx',
 ]
 
 export default defineConfig(opts => {
