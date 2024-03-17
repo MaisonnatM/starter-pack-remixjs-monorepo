@@ -1,5 +1,5 @@
 import { Avatar, AvatarImage } from '@epic-stack-monorepo/ui/avatar'
-import { cn } from '@epic-stack-monorepo/ui/index'
+import { cn } from '@epic-stack-monorepo/ui/index.ts'
 import { Input } from '@epic-stack-monorepo/ui/input.tsx'
 import {
 	NavigationMenu,

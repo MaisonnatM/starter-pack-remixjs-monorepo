@@ -1,8 +1,8 @@
 import { Button } from '@epic-stack-monorepo/ui/button'
 import { Link, useLocation } from '@remix-run/react'
 import { type PropsWithChildren } from 'react'
-import { ROUTES } from '#app/utils/helpers/routes'
-import { Logo } from '../_shared/logo'
+import { ROUTES } from '#app/utils/helpers/routes.tsx'
+import { Logo } from '../_shared/logo.tsx'
 
 type AuthLayoutProps = {
 	title: string

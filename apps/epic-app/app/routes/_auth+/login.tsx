@@ -16,7 +16,7 @@ import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { safeRedirect } from 'remix-utils/safe-redirect'
 import { z } from 'zod'
 
-import { AuthLayout } from '#app/components/_layout/auth.layout'
+import { AuthLayout } from '#app/components/_layout/auth.layout.tsx'
 import { FormControlInput } from '#app/components/_shared/form-control-input.tsx'
 import { FormErrors } from '#app/components/_shared/form-errors.tsx'
 import { GeneralErrorBoundary } from '#app/components/_shared/general-error-boundary.tsx'
@@ -75,7 +75,7 @@ export async function action({ request }: ActionFunctionArgs) {
 		)
 	}
 
-	const { session, redirectTo = '/' } = submission.value
+	const { session, redirectTo = ROUTES.home } = submission.value
 
 	const authSession = await sessionStorage.getSession(
 		request.headers.get('cookie'),
