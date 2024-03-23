@@ -26,6 +26,10 @@ import { type VerifyFunctionArgs } from './verify.tsx'
 
 const resetPasswordUsernameSessionKey = 'resetPasswordUsername'
 
+export const meta: MetaFunction = () => {
+	return [{ title: 'Reset Password | Epic App' }]
+}
+
 export async function handleVerification({ submission }: VerifyFunctionArgs) {
 	invariant(
 		submission.status === 'success',
@@ -112,10 +116,6 @@ export async function action({ request }: ActionFunctionArgs) {
 			'set-cookie': await verifySessionStorage.destroySession(verifySession),
 		},
 	})
-}
-
-export const meta: MetaFunction = () => {
-	return [{ title: 'Reset Password | Epic App' }]
 }
 
 export default function ResetPasswordPage() {

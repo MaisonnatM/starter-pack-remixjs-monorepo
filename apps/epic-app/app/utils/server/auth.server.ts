@@ -9,10 +9,11 @@ import { prisma } from './db.server.ts'
 import { sessionStorage } from './session.server.ts'
 
 export const SESSION_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 30
-export const getSessionExpirationDate = () =>
-	new Date(Date.now() + SESSION_EXPIRATION_TIME)
 
 export const sessionKey = 'sessionId'
+
+export const getSessionExpirationDate = () =>
+	new Date(Date.now() + SESSION_EXPIRATION_TIME)
 
 export async function getUserId(request: Request) {
 	const cookieSession = await sessionStorage.getSession(
@@ -141,26 +142,6 @@ export async function signup({
 	return session
 }
 
-export async function signupWithConnection({
-	email,
-}: {
-	email: User['email']
-}) {
-	const session = await prisma.session.create({
-		data: {
-			expirationDate: getSessionExpirationDate(),
-			user: {
-				create: {
-					email: email.toLowerCase(),
-				},
-			},
-		},
-		select: { id: true, expirationDate: true },
-	})
-
-	return session
-}
-
 export async function logout(
 	{
 		request,
@@ -189,6 +170,7 @@ export async function logout(
 
 export async function getPasswordHash(password: string) {
 	const hash = await bcrypt.hash(password, 10)
+
 	return hash
 }
 
