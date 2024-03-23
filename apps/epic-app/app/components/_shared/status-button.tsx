@@ -62,4 +62,5 @@ export const StatusButton = React.forwardRef<
 		</Button>
 	)
 })
-StatusButton.displayName = 'Button'
+
+StatusButton.displayName = 'StatusButton'
