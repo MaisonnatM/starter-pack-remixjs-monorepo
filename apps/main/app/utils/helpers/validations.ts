@@ -25,15 +25,14 @@ export const PasswordAndConfirmPasswordSchema = z
 		}
 	})
 
-const IMAGE_MAX_SIZE = 1024 * 1024 * 10 // 10MB
+const FILE_MAX_SIZE = 1024 * 1024 * 10 // 10MB
 
-export const ImageSchema = z.object({
-	image: z
+export const FileSchema = z.object({
+	file: z
 		.instanceof(Blob)
 		.optional()
 		.refine(
-			image => (image?.size || 0) <= IMAGE_MAX_SIZE,
-			'Image size must be less than 10MB',
+			file => (file?.size || 0) <= FILE_MAX_SIZE,
+			'file size must be less than 10MB',
 		),
-	imageUrl: z.string().optional(),
 })

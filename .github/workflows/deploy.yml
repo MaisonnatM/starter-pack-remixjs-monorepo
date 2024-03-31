@@ -88,7 +88,7 @@ jobs:
         uses: SebRollen/toml-action@v1.0.2
         id: app_name
         with:
-          file: 'apps/epic-app/fly.toml'
+          file: 'apps/main/fly.toml'
           field: 'app'
 
       - name: 🐳 Set up Docker Buildx
@@ -116,7 +116,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: apps/epic-app/other/Dockerfile
+          file: apps/main/other/Dockerfile
           push: true
           tags:
             registry.fly.io/${{ steps.app_name.outputs.value }}:${{
@@ -155,7 +155,7 @@ jobs:
         uses: SebRollen/toml-action@v1.2.0
         id: app_name
         with:
-          file: 'apps/epic-app/fly.toml'
+          file: 'apps/main/fly.toml'
           field: 'app'
 
       - name: 🚀 Deploy Staging
@@ -164,7 +164,7 @@ jobs:
         with:
           args:
             'deploy --app ${{ steps.app_name.outputs.value }}-staging --config
-            ./apps/epic-app/fly.toml --image registry.fly.io/${{
+            ./apps/main/fly.toml --image registry.fly.io/${{
             steps.app_name.outputs.value }}:${{ github.ref_name }}-${{
             github.sha }}'
         env:
@@ -175,7 +175,7 @@ jobs:
         uses: superfly/flyctl-actions@v1.4
         with:
           args:
-            'deploy --config ./apps/epic-app/fly.toml --image
+            'deploy --config ./apps/main/fly.toml --image
             registry.fly.io/${{ steps.app_name.outputs.value }}:${{
             github.ref_name }}-${{ github.sha }}'
         env:

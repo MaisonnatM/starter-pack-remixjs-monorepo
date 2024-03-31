@@ -1,5 +1,5 @@
 {
-  "name": "@epic-stack-monorepo/epic-app",
+  "name": "@epic-stack-monorepo/main",
   "private": true,
   "sideEffects": false,
   "type": "module",

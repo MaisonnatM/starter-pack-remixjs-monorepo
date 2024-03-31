@@ -18,7 +18,7 @@ in monorepos than `npm`. On top of that package manager the monorepo pipeline
 tool of choice is turborepo (feel free to switch it for NX).
 
 - `apps` Folder containing the applications
-  - [`epic-app`](https://github.com/PhilDL/epic-stack-monorepo/tree/main/apps/epic-app):
+  - [`main`](https://github.com/PhilDL/epic-stack-monorepo/tree/main/apps/main):
     the [Remix.run](https://remix.run) Epic Stack app.
 - `packages` Folder containing examples
 
@@ -48,7 +48,7 @@ tool of choice is turborepo (feel free to switch it for NX).
 pnpm i
 ```
 
-Given the name of our app in `package.json` is `@epic-stack-monorepo/epic-app`:
+Given the name of our app in `package.json` is `@epic-stack-monorepo/main`:
 
 Turborepo is used here to have pipeline between packages. The setup here is
 basic, and you can see turbo as just a way to run the same `pnpm` command in all
@@ -72,13 +72,13 @@ All turborepo // pnpm commands can be filtered to a specific package with the
 ### To Work on the Remix Epic Stack app
 
 ```bash
-pnpm dev --filter=@epic-stack-monorepo/epic-app
+pnpm dev --filter=@epic-stack-monorepo/main
 ```
 
 You could also use `...` to run dev also on all the workspace packages deps:
 
 ```bash
-pnpm dev --filter=@epic-stack-monorepo/epic-app...
+pnpm dev --filter=@epic-stack-monorepo/main...
 ```
 
 (This will also run the dev command on `@epic-stack-monorepo/client-hints` and

@@ -11,7 +11,7 @@
         ".cache"
       ]
     },
-    "@epic-stack-monorepo/epic-app#start": {
+    "@epic-stack-monorepo/main#start": {
       "dependsOn": ["^build"],
       "outputs": ["public/build/**"]
     },
